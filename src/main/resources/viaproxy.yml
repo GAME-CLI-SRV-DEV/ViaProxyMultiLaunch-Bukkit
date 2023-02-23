@@ -1,0 +1,4 @@
+name: "MultiLaunch"
+version: "1.0.0"
+author: "Lenni0451"
+main: "net.lenni0451.multilaunch.Main"

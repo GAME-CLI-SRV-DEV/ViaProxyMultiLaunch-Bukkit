@@ -2,7 +2,7 @@ package net.lenni0451.multilaunch;
 
 import joptsimple.OptionSpec;
 import net.lenni0451.lambdaevents.EventHandler;
-import net.raphimc.viaproxy.plugins.PluginManager;
+import net.raphimc.viaproxy.ViaProxy;
 import net.raphimc.viaproxy.plugins.ViaProxyPlugin;
 import net.raphimc.viaproxy.plugins.events.ConsoleCommandEvent;
 import net.raphimc.viaproxy.plugins.events.PostOptionsParseEvent;
@@ -19,7 +19,7 @@ public class Main extends ViaProxyPlugin {
 
     @Override
     public void onEnable() {
-        PluginManager.EVENT_MANAGER.register(this);
+        ViaProxy.EVENT_MANAGER.register(this);
     }
 
     @EventHandler

@@ -13,7 +13,6 @@ import java.util.List;
 @OptConfig(header = {
         "Configuration for the MultiLaunch ViaProxy plugin.",
         "Used to launch a server jar alongside ViaProxy.",
-        "Make sure the server jar is in a separate directory to avoid conflicts!",
         "",
         "Made by Lenni0451",
         "Source: https://github.com/ViaVersionAddons/ViaProxyMultiLaunch"
@@ -21,7 +20,10 @@ import java.util.List;
 public class MultiLaunchConfig {
 
     @Option("ServerJar")
-    @Description("The path to the server jar to launch")
+    @Description({
+            "The path to the server jar to launch",
+            "Make sure the server is in another folder than ViaProxy itself to avoid file conflicts!"
+    })
     public static String serverJar = "other/server.jar";
 
     @Option("JvmArguments")
@@ -33,11 +35,18 @@ public class MultiLaunchConfig {
     public static List<String> serverArguments = List.of("nogui");
 
     @Option("ForwardConsole")
-    @Description({"If the console input should be forwarded to the server", "This also means that ViaProxy is not able to read the console input!", "If the server process is not running, the input will be handled by ViaProxy"})
+    @Description({
+            "If the console input should be forwarded to the server",
+            "This also means that ViaProxy is not able to read the console input!",
+            "If the server process is not running, the input will be handled by ViaProxy"
+    })
     public static boolean forwardConsole = true;
 
     @Option("ShutdownTimeout")
-    @Description({"The time in seconds to wait for the server to shutdown before forcing it", "A force shutdown may cause data loss!"})
+    @Description({
+            "The time in seconds to wait for the server to shutdown before forcing it",
+            "A force shutdown may cause data loss!"
+    })
     public static int shutdownTimeout = 60;
 
     @Option("StopCommand")

@@ -1,23 +1,23 @@
 package net.lenni0451.multilaunch;
 
-import net.lenni0451.lambdaevents.EventHandler;
-import net.raphimc.viaproxy.ViaProxy;
-import net.raphimc.viaproxy.plugins.ViaProxyPlugin;
-import net.raphimc.viaproxy.plugins.events.ConsoleCommandEvent;
-import net.raphimc.viaproxy.util.logging.Logger;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.event.Listener;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.Bukkit;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-public class Main extends ViaProxyPlugin {
+public class Main extends JavaPlugin implements Listener {
 
     private JarLauncher launcher;
 
     @Override
     public void onEnable() {
         MultiLaunchConfig.load();
-        ViaProxy.EVENT_MANAGER.register(this);
+        Bukkit.getPluginManager().registerEvents(this, this);
         this.launch();
     }
 
@@ -33,28 +33,28 @@ public class Main extends ViaProxyPlugin {
                 }
             }));
         } catch (Throwable t) {
-            Logger.LOGGER.error("Failed to launch the server jar!", t);
+            getLogger().severe("Failed to launch the server jar!");
+            t.printStackTrace();
             System.exit(-1);
         }
     }
 
     @EventHandler
-    public void onConsoleCommand(ConsoleCommandEvent event) throws IOException {
+    public void onConsoleCommand(ServerCommandEvent event) throws IOException {
         if (!MultiLaunchConfig.forwardConsole) return;
 
         try {
             OutputStream os = this.launcher.getOutputStream();
             os.write(event.getCommand().getBytes(StandardCharsets.UTF_8));
-            if (event.getArgs().length != 0) {
+            if (event.getCommand().split(" ").length > 1) {
                 os.write(' ');
-                os.write(String.join(" ", event.getArgs()).getBytes(StandardCharsets.UTF_8));
+                os.write(event.getCommand().substring(event.getCommand().indexOf(' ') + 1).getBytes(StandardCharsets.UTF_8));
             }
             os.write('\n');
             os.flush();
             event.setCancelled(true);
         } catch (Throwable ignored) {
-            //If the server is not running, the input will be handled by ViaProxy
+            // If the server is not running, the input will be handled by Bukkit
         }
     }
-
 }

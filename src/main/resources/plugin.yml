@@ -2,4 +2,4 @@ name: "MultiLaunch"
 version: "${version}"
 author: "Lenni0451"
 main: "net.lenni0451.multilaunch.Main"
-min-version: "3.3.3"
+api-version: 1.20

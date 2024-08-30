@@ -3,7 +3,7 @@ plugins {
 }
 
 base {
-    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
     compileJava.options.encoding = compileTestJava.options.encoding = javadoc.options.encoding = "UTF-8"
 
     archivesName = project.maven_name ?: rootProject.maven_name
@@ -14,13 +14,13 @@ base {
 repositories {
     mavenCentral()
     maven {
-        name = "viaversion"
-        url = "https://repo.viaversion.com/"
+        name = "papermc"
+        url = "https://repo.papermc.io/repository/maven-public/"
     }
 }
 
 dependencies {
-    compileOnly "net.raphimc:ViaProxy:3.3.3"
+    compileOnly "io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT"
 }
 
 processResources {
@@ -29,7 +29,7 @@ processResources {
             "version": project.maven_version
     )
 
-    filesMatching("viaproxy.yml") {
+    filesMatching("plugin.yml") {
         expand(
                 "version": project.maven_version
         )

@@ -21,6 +21,7 @@ public class JarLauncher {
         this.logger = logger;
     }
 
+
     public void launch() throws IOException {
         File serverJarFile = new File(MultiLaunchConfig.serverJar);
         if (!serverJarFile.exists()) {

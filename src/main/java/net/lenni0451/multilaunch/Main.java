@@ -16,14 +16,14 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        MultiLaunchConfig.load();
+        MultiLaunchConfig.load(this);
         Bukkit.getPluginManager().registerEvents(this, this);
         this.launch();
     }
 
     private void launch() {
         try {
-            this.launcher = new JarLauncher();
+            this.launcher = new JarLauncher(getLogger());
             this.launcher.launch();
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {

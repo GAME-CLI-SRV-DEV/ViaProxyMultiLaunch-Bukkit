@@ -1,7 +1,7 @@
 # ViaProxyMultiLaunch
-Launch another jar file in combination with ViaProxy.\
-This helps if your server host only allows you to run a single jar file.\
-A spare port to bind ViaProxy/the server to is needed.
+This is a Port Version of the ViaProxyMultiLaunch Plugin.
+
+Original Plugin by https://github.com/ViaVersionAddon/ViaProxyMultiLaunch
 
 ## Usage
 ### Installation

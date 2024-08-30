@@ -1,7 +1,7 @@
 # ViaProxyMultiLaunch
 This is a Port Version of the ViaProxyMultiLaunch Plugin.
 
-Original Plugin by https://github.com/ViaVersionAddon/ViaProxyMultiLaunch
+Original Plugin is located in https://github.com/ViaVersionAddon/ViaProxyMultiLaunch, by [Lenny0451](https://github.com/Lenny0451)
 
 ## Usage
 ### Installation

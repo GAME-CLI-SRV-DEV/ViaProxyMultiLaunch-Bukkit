@@ -1,28 +1,35 @@
 package net.lenni0451.multilaunch;
 
-import net.raphimc.viaproxy.util.logging.Logger;
-
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class JarLauncher {
 
+    private final Logger logger;
     private Thread watchDogThread;
     private Process process;
     private OutputStream outputStream;
 
+    public JarLauncher(Logger logger) {
+        this.logger = logger;
+    }
+
     public void launch() throws IOException {
         File serverJarFile = new File(MultiLaunchConfig.serverJar);
         if (!serverJarFile.exists()) {
-            Logger.LOGGER.info("---------- MultiLaunch ----------");
-            Logger.LOGGER.error("Server jar file does not exist!");
-            Logger.LOGGER.info("Please make sure you have set the correct path in the configuration file!");
-            Logger.LOGGER.info("If this is your first time using the plugin, please edit the configuration file and restart the server!");
-            System.exit(0);
+            logger.info("---------- MultiLaunch ----------");
+            logger.severe("Server jar file does not exist!");
+            logger.info("Please make sure you have set the correct path in the configuration file!");
+            logger.info("If this is your first time using the plugin, please edit the configuration file and restart the server!");
+            Bukkit.getPluginManager().disablePlugin(JavaPlugin.getProvidingPlugin(this.getClass()));
+            return;
         }
 
         List<String> arguments = new ArrayList<>();
@@ -45,10 +52,10 @@ public class JarLauncher {
             } catch (InterruptedException e) {
                 return;
             }
-            Logger.LOGGER.info("Server process stopped!");
+            logger.info("Server process stopped!");
             if (MultiLaunchConfig.stopViaProxyOnServerStop) {
-                Logger.LOGGER.info("Stopping ViaProxy...");
-                System.exit(0);
+                logger.info("Stopping ViaProxy...");
+                Bukkit.getPluginManager().disablePlugin(JavaPlugin.getProvidingPlugin(this.getClass()));
             }
         }, "ServerWatchDog");
         this.watchDogThread.setDaemon(true);
@@ -57,7 +64,7 @@ public class JarLauncher {
 
     public void stop() throws IOException {
         this.watchDogThread.interrupt();
-        Logger.LOGGER.info("Stopping server (force shutdown after {} seconds)...", MultiLaunchConfig.shutdownTimeout);
+        logger.info("Stopping server (force shutdown after " + MultiLaunchConfig.shutdownTimeout + " seconds)...");
         this.outputStream.write(MultiLaunchConfig.stopCommand.getBytes());
         this.outputStream.write('\n');
         this.outputStream.flush();
@@ -66,7 +73,7 @@ public class JarLauncher {
                 throw new InterruptedException("Server did not stop in time!");
             }
         } catch (InterruptedException e) {
-            Logger.LOGGER.warn("Server stop was interrupted after {} seconds!", MultiLaunchConfig.shutdownTimeout);
+            logger.warning("Server stop was interrupted after " + MultiLaunchConfig.shutdownTimeout + " seconds!");
             this.process.destroy();
         }
     }
@@ -78,5 +85,5 @@ public class JarLauncher {
     public OutputStream getOutputStream() {
         return this.outputStream;
     }
-
 }
+

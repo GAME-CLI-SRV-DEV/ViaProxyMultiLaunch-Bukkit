@@ -14,13 +14,13 @@ base {
 repositories {
     mavenCentral()
     maven {
-        name = "viaversion"
-        url = "https://repo.viaversion.com/"
+        name = "jitpack"
+        url = "https://jitpack.io/"
     }
 }
 
 dependencies {
-    compileOnly "net.raphimc:ViaProxy:3.3.3"
+    compileOnly "com.github.YvanMazy.TransferProxy:api:1.0.6"
 }
 
 processResources {
@@ -29,7 +29,7 @@ processResources {
             "version": project.maven_version
     )
 
-    filesMatching("viaproxy.yml") {
+    filesMatching("plugin.yml") {
         expand(
                 "version": project.maven_version
         )
